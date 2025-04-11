@@ -17,12 +17,44 @@ a {
 }
 
 .button {
-  background-color: $blue-footer-button-color;
-  padding: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  background-color: $blue-footer-color;
+  text-align: center;
   color: $white-color;
-  font-size: 12px;
   border-radius: 5px;
-  border: none;
+  border: 0;
   outline: none;
   cursor: pointer;
+
+  &:disabled {
+    background-color: #868686;
+    cursor: not-allowed;
+  }
 }
+
+.button-small {
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 12px;
+  width: 153px;
+}
+
+.button-big {
+  padding: 15px 185px;
+  width: 422px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.input {
+  padding: 17px 20px;
+  box-sizing: border-box;
+  border: 2px solid $blue-login-color;
+  border-radius: 3px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: choose $gray-login-color;
+  outline: none;
+}
+

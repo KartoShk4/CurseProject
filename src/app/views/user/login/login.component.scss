@@ -1,0 +1,19 @@
+@import "../../../../assets/styles/auth-form";
+
+.login {
+  padding-top: 106px;
+  padding-bottom: 92px;
+
+  .container {
+    display: flex;
+
+    .page-image {
+      margin-left: 178px;
+
+      img {
+        border-radius: 5px;
+      }
+    }
+  }
+}
+

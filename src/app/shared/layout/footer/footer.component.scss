@@ -1,7 +1,7 @@
 @import "../../../../assets/styles/variables";
 
 .footer {
-  background-color: $blue-footer-color;
+  background-color: $blue-footer-background-color;
 
   .container {
     .footer-content {
@@ -34,7 +34,7 @@
                 text-decoration: none;
                 font-size: 16px;
                 cursor: pointer;
-                color: $blue-footer-text-color;
+                color: $blue-color;
               }
             }
           }
@@ -58,7 +58,7 @@
             .footer-info-block-title {
               font-size: 16px;
               font-weight: 500;
-              color: $blue-footer-title-color;
+              color: $blue-footer-color;
               margin-bottom: 10px;
 
               &:last-child {
@@ -70,10 +70,10 @@
               font-weight: 400;
               font-size: 16px;
               line-height: 130%;
-              color: $blue-footer-text-color;
+              color: $blue-color;
 
               a {
-                color: $blue-footer-text-color;
+                color: $blue-color;
               }
 
               .footer-info-active {
@@ -83,21 +83,22 @@
 
               a {
                 margin-right: 12px;
-
-                &:last-child {
-                  margin-right: 0;
+                  &:last-child {
+                    margin-right: 0;
+                  }
                 }
               }
+
             }
           }
         }
-      }
 
-      .footer-copyrights {
-        color: $blue-footer-copy-color;
-        font-size: 16px;
-        font-weight: 400;
+        .footer-copyrights {
+          color: $blue-footer-color;
+          font-size: 16px;
+          font-weight: 400;
+        }
       }
     }
   }
-}
+
