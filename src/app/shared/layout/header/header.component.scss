@@ -1,0 +1,55 @@
+@import "../../../../assets/styles/variables";
+
+header.header {
+  padding: 40px 0;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+
+    .header-content {
+      display: flex;
+      align-items: center;
+
+      .header-menu {
+        nav ul {
+          display: flex;
+          margin: 0;
+          padding: 0;
+
+          li {
+            list-style: none;
+            margin-right: 30px;
+
+            &:last-child {
+              margin-right: 0;
+            }
+
+            a {
+              font-size: 16px;
+              cursor: pointer;
+              color: $blue-header-text-color;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+
+      .header-phone {
+        text-decoration:  none;
+        color: $blue-header-phone-color;
+        margin-left: 257px;
+      }
+
+      .header-profile {
+        display: flex;
+        align-items: center;
+        margin-left: 141px;
+        a {
+          margin-left: 7px;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

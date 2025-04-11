@@ -1,0 +1,28 @@
+@import "variables";
+
+html, body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: $container-width;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+.button {
+  background-color: $blue-footer-button-color;
+  padding: 10px 20px;
+  color: $white-color;
+  font-size: 12px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

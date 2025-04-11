@@ -1,0 +1,103 @@
+@import "../../../../assets/styles/variables";
+
+.footer {
+  background-color: $blue-footer-color;
+
+  .container {
+    .footer-content {
+      padding-top: 40px;
+      padding-bottom: 54px;
+
+      .footer-top {
+        margin-bottom: 40px;
+
+        .footer-top-menu {
+          display: flex;
+          align-items: center;
+
+          .logo {
+            margin-right: 40px;
+          }
+
+          nav ul {
+            display: flex;
+            margin: 0;
+            padding: 0;
+
+            li {
+              list-style: none;
+              margin-right: 20px;
+
+              a {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 400;
+                text-decoration: none;
+                font-size: 16px;
+                cursor: pointer;
+                color: $blue-footer-text-color;
+              }
+            }
+          }
+        }
+      }
+
+      .footer-bottom {
+        margin-bottom: 6px;
+
+        .footer-info {
+          display: flex;
+
+          .footer-info-block {
+            max-width: 253px;
+            margin-right: 60px;
+
+            &:last-child {
+              margin-right: 0;
+            }
+
+            .footer-info-block-title {
+              font-size: 16px;
+              font-weight: 500;
+              color: $blue-footer-title-color;
+              margin-bottom: 10px;
+
+              &:last-child {
+                margin-bottom: 15px;
+              }
+            }
+
+            .footer-info-block-data {
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 130%;
+              color: $blue-footer-text-color;
+
+              a {
+                color: $blue-footer-text-color;
+              }
+
+              .footer-info-active {
+                margin-top: 10px;
+                margin-bottom: 6px;
+              }
+
+              a {
+                margin-right: 12px;
+
+                &:last-child {
+                  margin-right: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .footer-copyrights {
+        color: $blue-footer-copy-color;
+        font-size: 16px;
+        font-weight: 400;
+      }
+    }
+  }
+}
