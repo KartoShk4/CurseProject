@@ -1,0 +1,15 @@
+@import "../../../../assets/styles/auth-form";
+
+.signup {
+  padding-top: 123px;
+  padding-bottom: 92px;
+  .container {
+    .signup-form {
+      padding-top: 0;
+    }
+    display: flex;
+    .page-image {
+      margin-left: 185px;
+    }
+  }
+}

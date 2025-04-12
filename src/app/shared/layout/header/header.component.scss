@@ -39,19 +39,35 @@ header.header {
         text-decoration: none;
         color: $blue-header-phone-color;
         margin-left: 257px;
+        font-size: 16px;
       }
 
-      .header-profile {
+      .header-profile-block {
         display: flex;
-        align-items: center;
         margin-left: 141px;
 
-        a {
-          margin-left: 7px;
-          text-decoration: none;
-          color: $blue-color;
+        .header-profile {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 500;
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+
+          a {
+            margin-left: 7px;
+            text-decoration: none;
+            color: $blue-color;
+          }
+
+          span {
+            margin-left: 7px;
+            text-decoration: none;
+            color: $blue-color;
+            cursor: pointer;
+          }
         }
       }
+
     }
   }
 }

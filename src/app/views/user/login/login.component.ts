@@ -14,6 +14,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class LoginComponent implements OnInit {
 
+  userName: string = '';
+
   constructor(private fb: FormBuilder,
               private router: Router,
               private authService: AuthService,
@@ -28,6 +30,10 @@ export class LoginComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    const storedUserName = localStorage.getItem('userName');
+    if (storedUserName) {
+      this.userName = storedUserName;
+    }
   }
 
   // Запрос на авторизацию
@@ -54,6 +60,18 @@ export class LoginComponent implements OnInit {
             this.authService.setTokens(loginResponse.accessToken, loginResponse.refreshToken);
             this.authService.userId = loginResponse.userId;
             this._snackBar.open('Вы успешно авторизовались');
+
+            // Запрос информации о пользователе
+            this.authService.getUserInfo().subscribe({
+              next: (userData) => {
+                this.userName = userData.name;  // Обновить имя пользователя
+                localStorage.setItem('userName', this.userName);
+              },
+              error: (err) => {
+                console.error('Error fetching user info:', err);
+              }
+            });
+
             this.router.navigate(['/']);
           },
           error: (errorResponse: HttpErrorResponse) => {

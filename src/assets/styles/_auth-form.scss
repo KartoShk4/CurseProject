@@ -1,22 +1,22 @@
 @import "variables";
 
 .auth-form {
-  margin-top: 14px;
-  margin-bottom: 56px;
+  padding-top: 14px;
+  padding-bottom: 56px;
 
   .auth-title {
     font-family: "Lora", sans-serif;
     font-weight: 400;
     font-size: 36px;
     color: $blue-login-color;
-    margin-bottom: 40px;
+    padding-bottom: 40px;
   }
 
   .auth-inputs {
-    margin-bottom: 40px;
+    padding-bottom: 40px;
 
     .auth-input {
-      margin-bottom: 5px;
+      padding-bottom: 5px;
 
       input {
         width: 422px;
@@ -32,6 +32,7 @@
       display: flex;
       align-items: baseline;
       max-width: 422px;
+      line-height: 130%;
 
       input {
         margin: 0;
@@ -48,7 +49,7 @@
   }
 
   .auth-button {
-    margin-top: 30px;
+    padding-top: 30px;
     button.button {
       width: 422px;
     }
@@ -57,7 +58,7 @@
   .auth-link {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    margin-top: 10px;
+    padding-top: 10px;
     font-size: 14px;
     color: $blue-login-link-color;
 
