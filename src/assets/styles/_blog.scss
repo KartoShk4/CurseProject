@@ -1,3 +1,12 @@
+.blog-articles-title {
+  font-family: "Lora", sans-serif;
+  font-size: 38px;
+  font-weight: 400;
+  color: #709FDC;
+  line-height: 130%;
+  padding-bottom: 20px;
+}
+
 .blog-articles-cards {
   display: grid;
   grid-template-columns: repeat(4, 292px);

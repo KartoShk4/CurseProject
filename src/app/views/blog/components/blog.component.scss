@@ -1,1 +1,64 @@
 @import "../../../../assets/styles/blog";
+
+.blog-action {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .blog-filter {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    button {
+      margin-left: 66px;
+      outline: none;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0;
+      padding: 12px 23px;
+      width: 257px;
+
+      li {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        line-height: 130%;
+        list-style: none;
+        color: #BEBEBE;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .blog-filters {
+    color: #709FDC;
+    border-radius: 5px;
+    border: 2px solid #709FDC;
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    width: 128px;
+    box-sizing: border-box;
+
+    button {
+      padding-left: 8px;
+      padding-top: 4px;
+      outline: none;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+  }
+
+}
+

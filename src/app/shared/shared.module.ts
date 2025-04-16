@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ModalComponent } from './components/modal/modal.component';
+import {ModalComponent} from "./components/modal/modal.component";
+import {TruncateWordsPipe} from "./pipes/truncate.pipe";
+import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
-
-
 
 @NgModule({
   declarations: [
-    ModalComponent
+    ModalComponent,
+    TruncateWordsPipe
   ],
   exports: [
-    ModalComponent
+    ModalComponent,
+    TruncateWordsPipe
   ],
   imports: [
     CommonModule,

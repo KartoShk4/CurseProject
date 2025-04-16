@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {SERVICES} from "../../../shared/data/services.data";
+import { BlogService } from 'src/app/core/blog/blog.service';
+import { Article } from 'src/app/models/article.models';
 
 @Component({
   selector: 'app-blog',
@@ -7,11 +8,13 @@ import {SERVICES} from "../../../shared/data/services.data";
   styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
+  articles: Article[] = [];
 
-  constructor() { }
+  constructor(private blogService: BlogService) {}
 
   ngOnInit(): void {
+    this.blogService.getArticles().subscribe(response => {
+      this.articles = response.items;
+    });
   }
-
-    protected readonly services = SERVICES;
 }
