@@ -1,0 +1,65 @@
+.service-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 290px);
+  gap: 27px;
+  padding: 20px 0 20px 0;
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 498px;
+
+    .service-card-image {
+      border-radius: 5px;
+    }
+
+    .service-card-block {
+      display: flex;
+      flex-direction: column;
+      min-height: 207px;
+
+      .service-card-title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        font-size: 20px;
+        color: #709FDC;
+        padding: 15px 0 10px 0;
+      }
+
+      .service-card-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        color: #071739;
+        line-height: 130%;
+        height: 90px;
+        padding-bottom: 15px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4; /* количество строк, которые ты хочешь показать */
+        -webkit-box-orient: vertical;
+      }
+
+      .service-card-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .service-card-actions-price {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
+          font-size: 20px;
+          color: #709FDC;
+        }
+
+        button {
+          width: 163px;
+          padding: 15px 33px;
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}

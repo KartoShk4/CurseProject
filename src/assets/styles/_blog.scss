@@ -1,0 +1,68 @@
+.blog-articles-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 292px);
+  gap: 24px;
+  padding: 20px 0 20px 0;
+
+  .blog-articles-card {
+    position: relative;
+    height: 571px;
+
+    .blog-articles-card-image {
+      position: relative;
+      border-radius: 5px;
+
+      .blog-articles-card-image-category {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        position: absolute;
+        top: 10px;
+        right: 9px;
+        padding: 10px 18px;
+        background-color: #FFF;
+        border-radius: 5px;
+        color: #709FDC;
+        font-size: 11px;
+      }
+    }
+
+    .blog-articles-card-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .blog-articles-card-title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        font-size: 20px;
+        padding-top: 15px;
+        line-height: 130%;
+        color: #709FDC;
+      }
+
+      .blog-articles-card-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 130%;
+        color: #071739;
+        padding-top: 20px;
+      }
+
+      .blog-articles-card-more {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding-top: 20px;
+
+        a {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 400;
+          font-size: 16px;
+          color: #709FDC;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

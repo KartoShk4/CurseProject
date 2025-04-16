@@ -1,0 +1,117 @@
+@import "../../../../assets/styles/global";
+@import "../../../../assets/styles/variables";
+
+.slider {
+  position: relative;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 0 120px 0;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slide {
+  position: relative;
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+.slide-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Текст поверх картинки */
+.slide-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  position: absolute;
+  top: 100px;
+  left: 80px;
+  color: $white-color;
+  max-width: 576px;
+  text-align: left;
+
+  .slide-text-pretitle {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: $light-blue-color;
+    margin: 0;
+  }
+
+  .slide-text-title {
+    font-family: "Lora", sans-serif;
+    font-weight: 500;
+    font-size: 50px;
+    line-height: 130%;
+    margin: 0;
+
+    .selected {
+      color: $light-blue-color;
+    }
+  }
+
+  .slide-text-subtitle {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    font-size: 24px;
+    line-height: 130%;
+    width: 456px;
+  }
+}
+
+.slide-button {
+  margin-top: 20px;
+
+  .button {
+    width: 163px;
+    padding: 15px 33px;
+  }
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  background: transparent;
+  color: $white-color;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.arrow.left {
+  left: 5px;
+}
+
+.arrow.right {
+  right: 5px;
+}
+
+.dots {
+  position: absolute;
+  left: 620px;
+  bottom: 10px;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 20px 0 0;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid $white-color;
+}
+
+.dot.active {
+  background-color: $white-color;
+}

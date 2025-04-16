@@ -1,0 +1,54 @@
+<div class="modal-overlay" *ngIf="isOpen$ | async" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="closeModal()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="1.9355" y1="2.6499" x2="13.9563" y2="14.6707" stroke="#BEBEBE" stroke-linecap="round"/>
+        <line x1="13.9236" y1="2.62971" x2="1.90277" y2="14.6505" stroke="#BEBEBE" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="modal-content">
+      <div *ngIf="!showThanks" class="modal-title">Закажите бесплатную консультацию!</div>
+
+      <form [formGroup]="formModal" (ngSubmit)="submitForm()" *ngIf="!showThanks">
+        <div class="form-group" *ngIf="(modalConfig$ | async)?.showSelect">
+          <select class="input" formControlName="service">
+            <option value="">Выберите услугу</option>
+            <option *ngFor="let title of serviceTitles" [value]="title">
+              {{ title }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="input" placeholder="Ваше имя"
+                 [ngStyle]="{'border-color': formModal.get('name')?.invalid
+                  && (formModal.get('name')?.dirty || formModal.get('name')?.touched) ? 'red' : ''}"
+                 formControlName="name"/>
+          <div class="error" *ngIf="formModal.get('name')?.touched && formModal.get('name')?.invalid">
+            Пожалуйста, введите ваше имя
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="tel" class="input" placeholder="Ваш номер телефона"
+                 [ngStyle]="{'border-color': formModal.get('phone')?.invalid
+                  && (formModal.get('phone')?.dirty || formModal.get('phone')?.touched) ? 'red' : ''}"
+                 formControlName="phone"/>
+          <div class="error" *ngIf="formModal.get('phone')?.touched && formModal.get('phone')?.invalid">
+            Пожалуйста, введите корректный номер телефона
+          </div>
+        </div>
+
+        <button type="submit" class="button button-big" [disabled]="!formModal.valid">
+          Заказать консультацию
+        </button>
+      </form>
+
+      <div class="modal-thanks" *ngIf="showThanks">
+        <div class="modal-thanks-title">Спасибо за вашу заявку!</div>
+        <div class="modal-thanks-text">Мы свяжемся с вами при первой же возможности.</div>
+        <button class="button button-modal" (click)="closeModal()">Окей</button>
+      </div>
+    </div>
+  </div>
+</div>

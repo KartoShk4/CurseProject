@@ -1,7 +1,7 @@
 @import "variables";
 
 html, body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif !important;
   font-weight: 500;
   margin: 0;
   padding: 0;
@@ -57,6 +57,21 @@ a {
   color: $gray-login-color;
   outline: none;
 }
+
+select {
+  -webkit-appearance: none; /* Убирает стандартную стрелку в Chrome/Safari */
+  -moz-appearance: none; /* Убирает стандартную стрелку в Firefox */
+  appearance: none; /* Убирает стандартную стрелку в современных браузерах */
+  background-image: none; /* Убирает стрелку в IE */
+}
+
+
+.error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
 
 
 

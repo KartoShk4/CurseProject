@@ -1,0 +1,16 @@
+<div class="service-cards">
+  <div class="service-card" *ngFor="let service of services">
+      <div class="service-card-image">
+        <img [src]="service.image" [alt]="'Услуга ' + service.title">
+      </div>
+    <div class="service-card-block">
+      <div class="service-card-title">{{ service.title }}</div>
+      <div class="service-card-text">{{ service.text }}</div>
+      <div class="service-card-actions">
+        <div class="service-card-actions-price">От {{ service.price | number:'1.0-0' }} ₽</div>
+        <button class="button" (click)="openServiceModal(service)">Подробнее</button>
+      </div>
+    </div>
+  </div>
+</div>
+

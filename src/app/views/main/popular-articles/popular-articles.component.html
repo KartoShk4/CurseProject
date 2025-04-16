@@ -1,0 +1,15 @@
+<div class="blog-articles-cards">
+  <div class="blog-articles-card" *ngFor="let article of articles">
+    <div class="blog-articles-card-image">
+      <img *ngIf="article.image" [src]="getImageUrl(article.image)" [alt]="article.title">
+      <div class="blog-articles-card-image-category">{{ article.category }}</div>
+    </div>
+    <div class="blog-articles-card-info">
+      <header class="blog-articles-card-title">{{ article.title }}</header>
+      <div class="blog-articles-card-text">{{ article.description }}</div>
+      <footer class="blog-articles-card-more">
+        <a [routerLink]="['/article', article.url]">Читать дальше</a>
+      </footer>
+    </div>
+  </div>
+</div>

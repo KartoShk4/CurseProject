@@ -1,0 +1,203 @@
+@import "../../../assets/styles/variables";
+
+.service {
+  .container {
+    .service-title {
+      font-family: "Lora", sans-serif;
+      font-weight: 400;
+      font-size: 38px;
+      color: $light-blue-color;
+      padding-bottom: 20px;
+    }
+  }
+}
+
+.about {
+  padding-top: 100px;
+  padding-bottom: 120px;
+
+  .container {
+    .about-block {
+      display: flex;
+
+      .about-image {
+        border-radius: 5px;
+        padding-right: 68px;
+      }
+
+      .about-info {
+        font-family: 'Montserrat', sans-serif !important;
+        max-width: 633px;
+
+        .about-info-title {
+          font-family: "Lora", sans-serif;
+          font-weight: 400;
+          color: $light-blue-color;
+          line-height: 130%;
+          font-size: 38px;
+          padding-bottom: 20px;
+        }
+
+        .about-info-text {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 130%;
+          color: $dark-blue-color;
+          padding-bottom: 40px;
+
+          span {
+            font-weight: 500;
+          }
+        }
+
+        .about-info-advantages {
+          .about-info-advantages-title {
+            font-family: "Lora", sans-serif;
+            font-weight: 400;
+            font-size: 26px;
+            line-height: 130%;
+            color: $light-blue-color;
+            padding-bottom: 20px;
+          }
+
+          .about-info-advantages-items {
+            display: grid;
+            grid-template-columns: repeat(2, 316px);
+            row-gap: 20px;
+            column-gap: 71px;
+
+            .about-info-advantages-item {
+              display: flex;
+
+              .about-info-advantages-item-block {
+                position: relative;
+                margin-right: 20px;
+
+                .about-info-advantages-item-circle {
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  background-color: $blue-footer-background-color;
+                  margin-top: 40px;
+                }
+
+                .about-info-advantages-item-number {
+                  font-family: "Lora", sans-serif;
+                  font-weight: 500;
+                  position: absolute;
+                  bottom: 28px;
+                  left: 7px;
+                  font-size: 50px;
+                  color: $light-blue-color;
+                }
+              }
+
+              .about-info-advantages-item-text {
+                line-height: 130%;
+                font-size: 14px;
+
+                span {
+                  font-weight: 500;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.blog-articles {
+  padding-bottom: 120px;
+  position: relative;
+
+  .container {
+    .blog-articles-title {
+      font-family: "Lora", sans-serif;
+      font-size: 38px;
+      font-weight: 400;
+      color: #709FDC;
+      line-height: 130%;
+      padding-bottom: 20px;
+    }
+
+    .blog-articles-blog {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-top: 20px;
+
+
+      a {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        color: #709FDC;
+        font-size: 20px;
+        padding-right: 14px;
+      }
+    }
+  }
+}
+
+.reviews {
+  padding-bottom: 120px;
+
+  .container {
+    .reviews-title {
+      font-family: "Lora", sans-serif;
+      font-weight: 400;
+      font-size: 38px;
+      line-height: 130%;
+      color: #709FDC;
+      padding-bottom: 20px;
+    }
+  }
+}
+
+.contacts {
+  padding-bottom: 120px;
+  .container {
+    display: flex;
+
+    .contacts-map {
+      padding-right: 26px;
+    }
+
+    .contacts-info {
+      .contacts-info-title {
+        font-family: "Lora", sans-serif;
+        font-size: 38px;
+        font-weight: 400;
+        line-height: 130%;
+        color: #709FDC;
+        padding-bottom: 20px;
+      }
+
+      .contacts-info-subtitle {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 130%;
+        color: #709FDC;
+        padding-bottom: 10px;
+      }
+
+      .contacts-info-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 130%;
+        padding-bottom: 20px;
+
+        a {
+          color: #071739;
+        }
+
+        svg {
+          padding-right: 20px;
+        }
+      }
+    }
+  }
+}
