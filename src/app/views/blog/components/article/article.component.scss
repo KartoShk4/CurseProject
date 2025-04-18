@@ -1,0 +1,252 @@
+.article {
+  padding-top: 120px;
+
+  .container {
+    .article-breadcrumbs {
+      display: flex;
+      align-items: center;
+      margin-bottom: 60px;
+
+      .article-breadcrumbs-link {
+        font-family: Montserrat, sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        color: #b9d5fd;
+
+        span {
+          margin-left: 8px;
+          margin-right: 8px;
+          font-family: Montserrat, sans-serif;
+          font-weight: 500;
+          font-size: 16px;
+          color: #B9D5FD
+        }
+      }
+
+      .article-breadcrumbs-title {
+        font-family: Montserrat, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        color: #709FDC;
+      }
+    }
+
+    .article-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      margin-bottom: 60px;
+
+      .article-head-text {
+        width: 607px;
+
+        .article-head-text-title {
+          font-family: Lora, sans-serif;
+          font-weight: 400;
+          font-size: 38px;
+          line-height: 130%;
+          color: #709fdc;
+          margin-bottom: 40px;
+        }
+
+        .article-head-text-desc {
+          font-family: Montserrat, sans-serif;
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 130%;
+          color: #709fdc;
+        }
+      }
+
+      .article-head-image {
+        width: 527px;
+        height: 320px;
+        border-radius: 5px;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .article-section {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      margin-bottom: 61px;
+
+      .article-section-text {
+        width: 818px;
+        font-family: Montserrat, sans-serif;
+        margin-right: 10px;
+
+        h3 {
+          font-family: Montserrat, sans-serif;
+          font-weight: 500;
+          font-size: 20px;
+          color: #709fdc;
+        }
+
+        p {
+          font-family: Montserrat, sans-serif;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 130%;
+          color: #071739;
+        }
+      }
+
+      .article-section-related {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .article-section-related-title {
+          font-family: Montserrat, sans-serif;
+          font-weight: 400;
+          font-size: 26px;
+          line-height: 130%;
+          color: #709fdc;
+        }
+      }
+    }
+
+    .article-share {
+      display: flex;
+      align-items: center;
+      margin-bottom: 61px;
+
+      .article-share-text {
+        font-family: Montserrat, sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 130%;
+        color: #709fdc;
+        margin-right: 20px;
+      }
+
+      .article-share-social {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-right: 14px;
+      }
+    }
+
+    .article-comments {
+      width: 818px;
+
+      .article-comments-title {
+        font-family: Lora, sans-serif;
+        font-weight: 400;
+        font-size: 38px;
+        line-height: 130%;
+        color: #709fdc;
+        padding-bottom: 20px;
+      }
+
+      .article-comments-title-no-login {
+        font-family: Montserrat, sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        color: #071739;
+        margin-bottom: 60px;
+        a {
+          color: #709FDC;
+          font-size: 14px;
+        }
+      }
+
+      .article-comments-items {
+        margin-bottom: 60px;
+
+        .article-comments-item {
+          margin-bottom: 40px;
+
+          .article-comments-item-head {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+
+            .article-comments-item-head-image {
+              width: 60px;
+              height: 60px;
+              background: #b9d5fd;
+              border-radius: 100%;
+              border: 2px solid #709fdc;
+              display: flex;
+            }
+
+            .article-comments-item-head-name {
+              margin-left: 26px;
+              font-family: Montserrat, sans-serif;
+              font-weight: 600;
+              font-size: 18px;
+              color: #709fdc;
+
+              div {
+                font-family: Montserrat, sans-serif;
+                font-weight: 600;
+                font-size: 18px;
+                color: #709fdc;
+              }
+
+              span {
+                margin-top: 10px;
+                font-weight: 600;
+                font-size: 14px;
+                color: #bebebe;
+              }
+            }
+          }
+
+          .article-comments-item-text {
+            font-family: Montserrat, sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 140%;
+            color: #071739;
+            margin-bottom: 39px;
+          }
+
+          .article-comments-item-reactions {
+            display: flex;
+            align-items: center;
+
+            .article-comments-item-reaction {
+              display: flex;
+              align-items: center;
+              margin-right: 15px;
+
+              .article-comments-item-reaction-count {
+                font-family: Montserrat, sans-serif;
+                font-weight: 600;
+                font-size: 14px;
+                margin-right: 3px;
+                color: #071739;
+              }
+
+              .article-comments-item-reaction-icon {
+                cursor: pointer;
+              }
+            }
+          }
+        }
+
+        .article-comments-more {
+          color: #709FDC;
+          font-size: 20px;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 500;
+          a {
+            cursor: pointer;
+          }
+
+          span {
+            cursor: pointer;
+            padding-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+

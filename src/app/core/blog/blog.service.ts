@@ -35,4 +35,9 @@ export class BlogService {
     return this.http.get<ArticleResponse>(url);
   }
 
+  getArticleByUrl(url: string): Observable<Article> {
+    return this.http.get<Article>(`http://localhost:3000/api/articles/${url}`);
+  }
+
+
 }

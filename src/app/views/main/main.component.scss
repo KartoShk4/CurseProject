@@ -87,7 +87,7 @@
                   font-family: "Lora", sans-serif;
                   font-weight: 500;
                   position: absolute;
-                  bottom: 28px;
+                  bottom: 5px;
                   left: 7px;
                   font-size: 50px;
                   color: $light-blue-color;
@@ -96,6 +96,7 @@
 
               .about-info-advantages-item-text {
                 line-height: 130%;
+                font-weight: 400;
                 font-size: 14px;
 
                 span {

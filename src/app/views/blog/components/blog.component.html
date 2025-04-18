@@ -69,10 +69,10 @@
             <div class="blog-articles-card-image-category">{{ article.category }}</div>
           </div>
           <div class="blog-articles-card-info">
-            <header class="blog-articles-card-title">{{ article.title }}</header>
+            <header class="blog-articles-card-title">{{ article.title | truncateWords: 12 }}</header>
             <div class="blog-articles-card-text">{{ article.description | truncateWords: 30 }}</div>
             <footer class="blog-articles-card-more">
-              <a [routerLink]="['/article', article.url]">Читать дальше</a>
+              <a [routerLink]="['/blog/article', article.url]">Читать дальше</a>
             </footer>
           </div>
         </div>
