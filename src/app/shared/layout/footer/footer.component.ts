@@ -19,7 +19,8 @@ export class FooterComponent implements OnInit {
       showSelect: false,
       defaultService: 'Консультация',
       showConsultationBtn: true,
-      formTitle: 'Заказать консультацию'
+      formTitle: 'Закажите бесплатную консультацию!',
+      forceThanksTitle: true
     });
   }
 }

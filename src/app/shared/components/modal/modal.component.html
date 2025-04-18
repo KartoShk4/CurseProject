@@ -7,7 +7,8 @@
       </svg>
     </button>
     <div class="modal-content">
-      <div *ngIf="!showThanks" class="modal-title">Закажите бесплатную консультацию!</div>
+      <div *ngIf="showThanks || modalConfig?.forceThanksTitle" class="modal-title">Закажите бесплатную консультацию!</div>
+      <div *ngIf="!showThanks && !modalConfig?.forceThanksTitle" class="modal-title">Заявка на услугу</div>
 
       <form [formGroup]="formModal" (ngSubmit)="submitForm()" *ngIf="!showThanks">
         <div class="form-group" *ngIf="(modalConfig$ | async)?.showSelect">

@@ -16,6 +16,7 @@ import {ServiceCardComponent} from './views/main/service-card/service-card.compo
 import {PopularArticlesComponent} from './views/main/popular-articles/popular-articles.component';
 import {ReviewsComponent} from './views/main/reviews/reviews.component';
 import {SharedModule} from "./shared/shared.module";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {SharedModule} from "./shared/shared.module";
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     HttpClientModule,
     MatSnackBarModule,
     MatMenuModule,

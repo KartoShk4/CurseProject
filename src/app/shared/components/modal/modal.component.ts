@@ -4,7 +4,7 @@ import { ApiService, Category, Request } from '../../../core/services/api.servic
 import { ModalService } from '../../../core/modal/modal.service';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {SERVICES} from "../../data/services.data";
+import { SERVICES } from "../../data/services.data";
 
 @Component({
   selector: 'app-modal',
@@ -12,21 +12,15 @@ import {SERVICES} from "../../data/services.data";
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit, OnDestroy {
-
   serviceTitles: string[] = SERVICES.map(service => service.title);
-
   formModal: FormGroup;
   categories: Category[] = [];
   showThanks: boolean = false;
   isOpen$: Observable<boolean>;
-  modalConfig$: Observable<{
-    showSelect: boolean;
-    defaultService?: string;
-    showConsultationBtn: boolean;
-    formTitle: string;
-  }>;
+  modalConfig$: Observable<any>;
+  modalConfig: any; // Добавляем эту строку для объявления переменной
 
-  private destroy$ = new Subject<void>(); // Subject для отписки
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -44,24 +38,24 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Обрабатываем конфигурацию модалки
     this.modalConfig$
-      .pipe(takeUntil(this.destroy$)) // отписка на уничтожение компонента
+      .pipe(takeUntil(this.destroy$))
       .subscribe(config => {
+        this.modalConfig = config; // Сохраняем конфигурацию
+
         if (config.defaultService) {
-          this.formModal.patchValue({ service: config.defaultService });  // Подставляем выбранное значение
+          this.formModal.patchValue({ service: config.defaultService });
         }
 
         if (config.showSelect) {
-          // Делаем поле service обязательным
           this.formModal.get('service')?.setValidators([Validators.required]);
           this.formModal.get('service')?.updateValueAndValidity();
         }
       });
   }
 
+  // Остальные методы остаются без изменений
   ngOnDestroy(): void {
-    // Завершаем все подписки, когда компонент уничтожается
     this.destroy$.next();
     this.destroy$.complete();
   }

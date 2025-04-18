@@ -17,7 +17,7 @@ export class ServiceCardComponent {
   openServiceModal(service: ServiceType): void {
     this.modalService.openModal({
       showSelect: true,
-      defaultService: service.title,  // Передаем title выбранной услуги
+      defaultService: service.title,
       showConsultationBtn: false,
       formTitle: 'Оставить заявку'
     });
