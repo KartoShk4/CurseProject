@@ -207,6 +207,19 @@
         }
       }
 
+      .article-comments-title-login {
+        display: flex;
+        flex-direction: column;
+        textarea {
+          width: 818px;
+        }
+        button {
+          margin-top: 20px;
+          margin-bottom: 60px;
+          padding: 15px 91px;
+        }
+      }
+
       .article-comments-items {
         margin-bottom: 60px;
 
