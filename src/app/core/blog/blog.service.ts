@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 import { Article } from '../../models/article.models';
 import { Category } from '../../models/category.models';
 import { ArticleResponse } from "../../../type/article-response";
+import {CommentType, DefaultResponseType} from "../../../type/comment.type";
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,41 @@ export class BlogService {
 
   getRelatedArticles(articleUrl: string): Observable<Article[]> {
     return this.http.get<Article[]>(`${this.baseUrl}/articles/related/${articleUrl}`);
+  }
+
+  getComments(articleId: string, offset: number = 0): Observable<CommentType[]> {
+    return this.http.get<{ comments: any[] }>(`${this.baseUrl}/comments`, {
+      params: {
+        article: articleId,
+        offset: offset.toString()
+      }
+    }).pipe(
+      map(response =>
+        response.comments.map(comment => ({
+          id: comment.id,
+          author: comment.user.name,
+          date: comment.date,
+          text: comment.text,
+          reactions: {
+            likes: comment.likesCount,
+            dislikes: comment.dislikesCount,
+            complaints: 0, // пока что не приходит отдельно
+            userReaction: null
+          }
+        }))
+      )
+    );
+  }
+
+  addComment(articleId: string, text: string): Observable<DefaultResponseType> {
+    const token = localStorage.getItem('accessToken');
+    return this.http.post<DefaultResponseType>(`${this.baseUrl}/comments`, {
+      text,
+      article: articleId
+    }, {
+      headers: {
+        'x-auth': token || ''
+      }
+    });
   }
 }

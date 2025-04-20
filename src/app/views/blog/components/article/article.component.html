@@ -21,17 +21,17 @@
       <div class="article-section-related">
         <div class="article-section-related-title">Читайте также:</div>
         <div class="article-card" *ngFor="let article of relatedArticles">
-            <div class="article-card-image">
-              <img [src]="'../../../../assets/images/pages/blog/' + article.image" [alt]="article.title">
-              <div class="article-card-image-category">{{ article.category }}</div>
-            </div>
-            <div class="article-card-info">
-              <header class="article-card-title">{{ article.title | truncateWords: 12 }}</header>
-              <div class="article-card-text">{{ article.description | truncateWords: 30 }}</div>
-              <footer class="article-card-more">
-                <a [routerLink]="['/article', article.url]">Читать дальше</a>
-              </footer>
-            </div>
+          <div class="article-card-image">
+            <img [src]="'../../../../assets/images/pages/blog/' + article.image" [alt]="article.title">
+            <div class="article-card-image-category">{{ article.category }}</div>
+          </div>
+          <div class="article-card-info">
+            <header class="article-card-title">{{ article.title | truncateWords: 12 }}</header>
+            <div class="article-card-text">{{ article.description | truncateWords: 30 }}</div>
+            <footer class="article-card-more">
+              <a [routerLink]="['/article', article.url]">Читать дальше</a>
+            </footer>
+          </div>
         </div>
       </div>
     </div>
@@ -94,16 +94,20 @@
 
     <div class="article-comments">
       <div class="article-comments-title">Комментарии к статье</div>
-      <div class="article-comments-title-no-login">
-        Чтобы оставлять комментарии, <a routerLink="/login">войдите</a> или <a
-        routerLink="/signup">зарегистрируйтесь.</a>
+      <!-- Неавторизованный пользователь -->
+      <div class="article-comments-title-no-login" *ngIf="!(isLogged$ | async)">
+        Чтобы оставлять комментарии,
+        <a routerLink="/login">войдите</a> или
+        <a routerLink="/signup">зарегистрируйтесь.</a>
       </div>
-      <div class="article-comments-title-login">
-        <textarea class="input" cols="30" rows="12" placeholder="Напишите Ваш комментарий к статье..."></textarea>
-        <button class="button button-big">Опубликовать комментарий</button>
+      <!-- Авторизованный пользователь -->
+      <div class="article-comments-title-login" *ngIf="isLogged$ | async">
+        <textarea [(ngModel)]="newCommentText" class="input" cols="30" rows="12"
+            placeholder="Напишите Ваш комментарий к статье..."></textarea>
+        <button class="button button-big" (click)="addComment()">Опубликовать комментарий</button>
       </div>
       <div class="article-comments-items">
-        <div class="article-comments-item">
+        <div class="article-comments-item" *ngFor="let comment of comments">
           <div class="article-comments-item-head">
             <div class="article-comments-item-head-image">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,11 +124,11 @@
               </svg>
             </div>
             <div class="article-comments-item-head-name">
-              <div>Евгений</div>
-              <span>18.04.2025 13:53</span>
+              <div>{{ comment.author }}</div>
+              <span>{{ comment.date | date:'dd.MM.yyyy HH:mm' }}</span>
             </div>
           </div>
-          <div class="article-comments-item-text">Тестовый коммент</div>
+          <div class="article-comments-item-text">{{ comment.text }}</div>
           <div class="article-comments-item-reactions">
             <!--LIKE-->
             <div class="article-comments-item-reaction">
@@ -172,8 +176,8 @@
             </div>
           </div>
         </div>
-        <div class="article-comments-more">
-          <a>Загрузить ещё комментарии</a>
+        <div class="article-comments-more" *ngIf="comments.length">
+          <a (click)="loadComments()">Загрузить ещё комментарии</a>
           <span>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
