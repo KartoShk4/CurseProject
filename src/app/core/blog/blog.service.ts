@@ -54,19 +54,20 @@ export class BlogService {
       map(response =>
         response.comments.map(comment => ({
           id: comment.id,
-          author: comment.user.name,
+          author: comment.user?.name || 'Аноним',
           date: comment.date,
           text: comment.text,
           reactions: {
-            likes: comment.likesCount,
-            dislikes: comment.dislikesCount,
-            complaints: 0, // пока что не приходит отдельно
+            likes: comment.likesCount || 0,
+            dislikes: comment.dislikesCount || 0,
+            complaints: 0,
             userReaction: null
           }
         }))
       )
     );
   }
+
 
   addComment(articleId: string, text: string): Observable<DefaultResponseType> {
     const token = localStorage.getItem('accessToken');
@@ -79,4 +80,5 @@ export class BlogService {
       }
     });
   }
+
 }

@@ -35,11 +35,10 @@ export class ArticleComponent implements OnInit {
     const url = this.route.snapshot.paramMap.get('url');
     if (url) {
       this.blogService.getArticleByUrl(url).subscribe((article) => {
-        console.log('Loaded article:', article);
         this.article = article;
         this.articleId = article.id;
 
-        // Загружаем связанные статьи только после загрузки основной
+        this.loadComments(); // ← вот здесь загружаем комментарии
         this.blogService.getRelatedArticles(this.article.url).subscribe((related) => {
           this.relatedArticles = related;
         });
@@ -47,12 +46,14 @@ export class ArticleComponent implements OnInit {
     }
   }
 
+
   loadComments(): void {
     this.blogService.getComments(this.articleId, this.offset).subscribe(comments => {
       this.comments = [...this.comments, ...comments];
       this.offset += comments.length;
     });
   }
+
 
   addComment(): void {
     if (!this.newCommentText.trim()) return;
