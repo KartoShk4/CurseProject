@@ -21,6 +21,14 @@ export class ArticleComponent implements OnInit {
   articleId!: string;
   articleUrl!: string;
   offset: number = 0;
+  isLoadingComments: boolean = false; // загрузка
+  hasMoreComments: boolean = true; // есть ли ещё
+  commentsPerPage: number = 10; // шаг загрузки (после первых 3)
+  initialLoadCount: number = 3; // первые 3 комментария
+  initialLoad: boolean = true;
+  allComments: CommentType[] = [];
+
+
 
 
   constructor(
@@ -38,21 +46,35 @@ export class ArticleComponent implements OnInit {
         this.article = article;
         this.articleId = article.id;
 
-        this.loadComments(); // ← вот здесь загружаем комментарии
-        this.blogService.getRelatedArticles(this.article.url).subscribe((related) => {
-          this.relatedArticles = related;
+        // загружаем ВСЕ комментарии
+        this.blogService.getComments(this.articleId, 0).subscribe(comments => {
+          this.allComments = comments;
+
+          this.comments = this.allComments.slice(0, this.initialLoadCount);
+          this.offset = this.initialLoadCount;
+
+          if (this.offset >= this.allComments.length) {
+            this.hasMoreComments = false;
+          }
         });
       });
     }
   }
 
 
+
   loadComments(): void {
-    this.blogService.getComments(this.articleId, this.offset).subscribe(comments => {
-      this.comments = [...this.comments, ...comments];
-      this.offset += comments.length;
-    });
+    const next = this.allComments.slice(this.offset, this.offset + this.commentsPerPage);
+    this.comments = [...this.comments, ...next];
+    this.offset += next.length;
+
+    if (this.offset >= this.allComments.length) {
+      this.hasMoreComments = false;
+    }
   }
+
+
+
 
 
   addComment(): void {

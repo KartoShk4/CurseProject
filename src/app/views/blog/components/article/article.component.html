@@ -94,6 +94,10 @@
 
     <div class="article-comments">
       <div class="article-comments-title">Комментарии к статье</div>
+     <!-- Если комментариев нет -->
+      <div class="article-comments-no-comments" *ngIf="!comments.length && !isLoadingComments">
+        Будьте первым, кто оставит свой комментарий к статье!
+      </div>
       <!-- Неавторизованный пользователь -->
       <div class="article-comments-title-no-login" *ngIf="!(isLogged$ | async)">
         Чтобы оставлять комментарии,
@@ -103,7 +107,7 @@
       <!-- Авторизованный пользователь -->
       <div class="article-comments-title-login" *ngIf="isLogged$ | async">
         <textarea [(ngModel)]="newCommentText" class="input" cols="30" rows="12"
-            placeholder="Напишите Ваш комментарий к статье..."></textarea>
+                  placeholder="Напишите Ваш комментарий к статье..."></textarea>
         <button class="button button-big" (click)="addComment()">Опубликовать комментарий</button>
       </div>
       <div class="article-comments-items">
@@ -176,8 +180,22 @@
             </div>
           </div>
         </div>
-        <div class="article-comments-more" *ngIf="comments.length">
-          <a (click)="loadComments()">Загрузить ещё комментарии</a>
+        <!--Больше комментариев-->
+        <div class="article-comments-more" *ngIf="comments.length && hasMoreComments">
+
+          <!-- Лоадер -->
+          <span *ngIf="isLoadingComments">
+            <svg width="20" height="20" viewBox="0 0 20 20" class="spinner">
+              <!-- можешь заменить на свою иконку/анимацию -->
+              <circle cx="10" cy="10" r="8" stroke="#709FDC" stroke-width="2" fill="none" stroke-dasharray="50"
+                      stroke-linecap="round">
+              <animateTransform attributeName="transform" type="rotate" from="0 10 10" to="360 10 10" dur="1s"
+                                repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </span>
+
+          <a *ngIf="!isLoadingComments" (click)="loadComments()">Загрузить ещё комментарии</a>
           <span>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
