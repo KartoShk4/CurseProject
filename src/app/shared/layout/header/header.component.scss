@@ -7,6 +7,10 @@ header.header {
     display: flex;
     justify-content: space-between;
 
+    .logo {
+      padding-right: 100px;
+    }
+
     .header-content {
       display: flex;
       align-items: center;
@@ -44,7 +48,7 @@ header.header {
 
       .header-profile-block {
         display: flex;
-        margin-left: 141px;
+        margin-left: 58px;
 
         .header-profile {
           font-family: 'Montserrat', sans-serif;

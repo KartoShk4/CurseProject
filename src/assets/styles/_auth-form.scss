@@ -44,6 +44,11 @@
         font-size: 14px;
         color: $blue-color;
         margin-left: 10px;
+
+        a {
+          color: #709FDC;
+          text-decoration: underline;
+        }
       }
     }
   }

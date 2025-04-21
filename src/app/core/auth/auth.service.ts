@@ -1,67 +1,67 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, Observable, tap, throwError} from "rxjs";
-import {DefaultResponseType} from "../../../type/default-response.type";
-import {LoginResponseType} from "../../../type/login-response.type";
-import {environment} from "../../../environments/environment";
+import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, Observable, tap, throwError } from "rxjs";
+import { DefaultResponseType } from "../../../type/default-response.type";
+import { LoginResponseType } from "../../../type/login-response.type";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
-  // Ключи для хранения токенов и userId в localStorage
+  // Ключи для хранения токенов и userId в localStorage (для того, чтобы сохранять данные на клиенте)
   public accessTokenKey: string = 'accessToken';
   public refreshTokenKey: string = 'refreshToken';
   public userIdKey: string = 'userId';
 
+  // Состояние логина пользователя
   public isLogged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  // Локальная переменная для отслеживания статуса логина
   private isLogged: boolean = false;
 
   constructor(private http: HttpClient) {
-    // Проверка токена при инициализации сервиса
-    this.isLogged = !!localStorage.getItem(this.accessTokenKey)
-    this.isLogged$.next(this.isLogged)
+    // Проверка токена при инициализации сервиса (если есть токен, пользователь считается залогиненым)
+    // Проверяем, есть ли accessToken в localStorage
+    this.isLogged = !!localStorage.getItem(this.accessTokenKey);
+    this.isLogged$.next(this.isLogged);
   }
 
-
-  // Авторизация
+  // Авторизация пользователя (отправляем запрос на сервер с email и паролем)
   login(email: string, password: string, rememberMe: boolean): Observable<DefaultResponseType | LoginResponseType> {
     return this.http.post<DefaultResponseType | LoginResponseType>(environment.api + 'login', {
-      email, password, rememberMe
+      email, password, rememberMe  // Отправляем данные на сервер
     });
   };
 
-  // Регистрация
+  // Регистрация нового пользователя (отправляем имя, email и пароль)
   signup(name: string, email: string, password: string): Observable<DefaultResponseType | LoginResponseType> {
     return this.http.post<DefaultResponseType | LoginResponseType>(environment.api + 'signup', {
-      name, email, password
+      name, email, password  // Отправляем данные на сервер
     });
   };
 
-  // Выход из аккаунта
+  // Выход из аккаунта (удаляем токены и выполняем запрос logout на сервере)
   logout(): Observable<DefaultResponseType> {
+    // Получаем токены из localStorage
     const tokens = this.getTokens();
+    // Проверяем, есть ли refreshToken
     if (tokens && tokens.refreshToken) {
       return this.http.post<DefaultResponseType>(environment.api + 'logout', {
+        // Отправляем refreshToken для выхода
         refreshToken: tokens.refreshToken
       }).pipe(
-        tap(() => {
+        tap((): void => {
           this.removeTokens();
-          localStorage.removeItem('userName')
+          localStorage.removeItem('userName');
           this.isLogged$.next(false);
         })
-      )
+      );
     }
-    throw throwError((): string => 'Can not find token')
+    // Если нет refreshToken, выбрасываем ошибку
+    throw throwError((): string => 'Can not find token');
   }
 
-  // Геттер статуса
-  public getIsLoggedIn(): boolean {
-    return this.isLogged;
-  }
-
-  // Сохраняем токены
+  // Сохраняем токены в localStorage
   public setTokens(assessToken: string, refreshToken: string): void {
     localStorage.setItem(this.accessTokenKey, assessToken);
     localStorage.setItem(this.refreshTokenKey, refreshToken);
@@ -69,7 +69,7 @@ export class AuthService {
     this.isLogged$.next(true);
   }
 
-  // Удаляем токены
+  // Удаляем токены из localStorage
   public removeTokens(): void {
     localStorage.removeItem(this.accessTokenKey);
     localStorage.removeItem(this.refreshTokenKey);
@@ -77,7 +77,7 @@ export class AuthService {
     this.isLogged$.next(false);
   }
 
-  // Получаем токены
+  // Получаем токены из localStorage
   public getTokens(): { accessToken: string | null, refreshToken: string | null } {
     return {
       accessToken: localStorage.getItem(this.accessTokenKey),
@@ -85,23 +85,25 @@ export class AuthService {
     };
   }
 
+  // Получаем userId из localStorage
   get userId(): null | string {
     return localStorage.getItem(this.userIdKey);
   }
 
+  // Устанавливаем userId в localStorage
   set userId(id: string | null) {
-    if (id) {
+    if (id) {  // Если id не null, сохраняем его
       localStorage.setItem(this.userIdKey, id);
-    } else {
+    } else {  // Если id null, удаляем из localStorage
       localStorage.removeItem(this.userIdKey);
     }
   }
 
-  // В AuthService
+  // Получаем информацию о пользователе с сервера (используем токен для авторизации)
   getUserInfo(): Observable<any> {
-    const token = this.getTokens().accessToken;
-    if (!token) {
-      return throwError(() => new Error('No access token found'));
+    const token: string | null = this.getTokens().accessToken;
+    if (!token) {  // Если токен не найден
+      return throwError((): Error => new Error('No access token found'));
     }
 
     return this.http.get<any>(environment.api + 'users', {
@@ -111,5 +113,3 @@ export class AuthService {
     });
   }
 }
-
-

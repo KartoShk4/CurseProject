@@ -13,6 +13,7 @@ import {ServiceCardComponent} from './views/main/service-card/service-card.compo
 import {ReviewsComponent} from './views/main/reviews/reviews.component';
 import {SharedModule} from "./shared/shared.module";
 import {RouterModule} from "@angular/router";
+import { PolicyPageComponent } from './views/policy-page/policy-page.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {RouterModule} from "@angular/router";
     SliderComponent,
     ServiceCardComponent,
     ReviewsComponent,
+    PolicyPageComponent,
   ],
   imports: [
     BrowserModule,

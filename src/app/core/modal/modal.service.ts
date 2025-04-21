@@ -1,7 +1,8 @@
 // modal.service.ts
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 
+// Интерфейс для конфигурации модального окна
 interface ModalConfig {
   showSelect: boolean;
   defaultService?: string;
@@ -14,6 +15,7 @@ interface ModalConfig {
   providedIn: 'root'
 })
 export class ModalService {
+  // Состояние открытия модального окна и конфигурация
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   private modalConfigSubject = new BehaviorSubject<ModalConfig>({
     showSelect: true,
@@ -23,23 +25,27 @@ export class ModalService {
     forceThanksTitle: false
   });
 
-  isOpen$ = this.isOpenSubject.asObservable();
-  modalConfig$ = this.modalConfigSubject.asObservable();
+  // Наблюдаемое состояние и конфигурация
+  isOpen$: Observable<boolean> = this.isOpenSubject.asObservable();
+  modalConfig$: Observable<ModalConfig> = this.modalConfigSubject.asObservable();
 
-  openModal(config: ModalConfig) {
+  // Открытие модального окна с конфигурацией
+  openModal(config: ModalConfig): void {
     this.modalConfigSubject.next({
-      ...this.modalConfigSubject.value, // Сохраняем текущие значения
-      ...config,                      // Применяем новые настройки
-      formTitle: config.formTitle || 'Оставить заявку' // Дефолтный заголовок
+      ...this.modalConfigSubject.value,
+      ...config,
+      formTitle: config.formTitle || 'Оставить заявку'
     });
     this.isOpenSubject.next(true);
   }
 
-  closeModal() {
+  // Закрытие модального окна
+  closeModal(): void {
     this.isOpenSubject.next(false);
   }
 
-  resetToDefault() {
+  // Сброс конфигурации модального окна
+  resetToDefault(): void {
     this.modalConfigSubject.next({
       showSelect: true,
       defaultService: '',
