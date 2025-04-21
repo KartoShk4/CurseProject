@@ -102,6 +102,7 @@ export class BlogService {
     );
   }
 
+
   addReaction(commentId: string, action: 'like' | 'dislike' | 'violate') {
     const token = this.authService.getTokens().accessToken;
 
@@ -115,5 +116,4 @@ export class BlogService {
       }
     );
   }
-
 }

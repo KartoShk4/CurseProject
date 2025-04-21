@@ -49,13 +49,26 @@ export class ArticleComponent implements OnInit {
         // Загружаем все комментарии
         this.blogService.getComments(this.articleId, 0).subscribe(comments => {
           this.allComments = comments;
-
           this.comments = this.allComments.slice(0, this.initialLoadCount);
           this.offset = this.initialLoadCount;
 
           if (this.offset >= this.allComments.length) {
             this.hasMoreComments = false;
           }
+
+          // Загружаем реакции пользователя для комментариев
+          this.blogService.getUserReactions(this.articleId).subscribe(reactions => {
+            this.userReactions = reactions;
+
+            // Обновляем комментарии с учетом реакций пользователя
+            this.comments = this.comments.map(comment => {
+              const userReaction = this.userReactions.find(r => r.comment === comment.id);
+              if (userReaction) {
+                comment.userReaction = userReaction.action;
+              }
+              return comment;
+            });
+          });
         });
 
         // Загружаем связанные статьи
@@ -65,6 +78,7 @@ export class ArticleComponent implements OnInit {
       });
     }
   }
+
 
   loadComments(): void {
     const next = this.allComments.slice(this.offset, this.offset + this.commentsPerPage);
@@ -105,7 +119,6 @@ export class ArticleComponent implements OnInit {
   }
 
   onReact(commentId: string, action: 'like' | 'dislike' | 'violate') {
-    // Проверка на авторизацию
     const token = this.authService.getTokens().accessToken;
     if (!token) {
       this._snackBar.open('Вы должны быть авторизованы', '', { duration: 3000 });
@@ -117,6 +130,7 @@ export class ArticleComponent implements OnInit {
         const message = action === 'violate' ? 'Жалоба отправлена' : 'Ваш голос учтен';
         this._snackBar.open(message, '', { duration: 3000 });
 
+        // Обновляем комментарий с новой реакцией
         this.comments = this.comments.map(comment => {
           if (comment.id !== commentId) return comment;
 
@@ -136,29 +150,32 @@ export class ArticleComponent implements OnInit {
             if (current === 'like') likes--;
           }
 
-          // жалоба не влияет на визуальное состояние, кроме сообщения
           return {
             ...comment,
             reactions: {
               ...comment.reactions,
               likes,
               dislikes,
-              complaints: comment.reactions.complaints // можно обновить, если бэк это возвращает
+              complaints: comment.reactions.complaints
             },
             userReaction: updatedReaction
           };
         });
+
+        // Синхронизируем состояние реакции с сервером (это необязательно, если сервер уже обновляет данные)
+        this.blogService.getUserReactions(this.articleId).subscribe(reactions => {
+          this.userReactions = reactions;
+        });
       },
       error: (err) => {
         const msgFromBackend = err.error?.message;
-
         const message = msgFromBackend === 'Это действие уже применено к комментарию'
           ? 'Жалоба уже отправлена'
           : 'Произошла ошибка';
-
         this._snackBar.open(message, '', { duration: 3000 });
       }
     });
   }
+
 
 }

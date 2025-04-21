@@ -101,8 +101,8 @@
       <!-- Неавторизованный пользователь -->
       <div class="article-comments-title-no-login" *ngIf="!(isLogged$ | async)">
         Чтобы оставлять комментарии,
-        <a routerLink="/login">войдите</a> или
-        <a routerLink="/signup">зарегистрируйтесь.</a>
+        <a routerLink="/user/login">войдите</a> или
+        <a routerLink="/user/signup">зарегистрируйтесь.</a>
       </div>
       <!-- Авторизованный пользователь -->
       <div class="article-comments-title-login" *ngIf="isLogged$ | async">
