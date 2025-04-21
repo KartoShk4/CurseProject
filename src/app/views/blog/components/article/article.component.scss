@@ -324,3 +324,22 @@
   }
 }
 
+/* Анимация для картинки */
+.loading-image {
+  width: 50px; /* Установи нужный размер */
+  height: 50px; /* Установи нужный размер */
+  animation: rotate 1.5s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+

@@ -81,14 +81,24 @@ export class ArticleComponent implements OnInit {
 
 
   loadComments(): void {
-    const next = this.allComments.slice(this.offset, this.offset + this.commentsPerPage);
-    this.comments = [...this.comments, ...next];
-    this.offset += next.length;
+    this.isLoadingComments = true;  // Включаем лоадер
 
-    if (this.offset >= this.allComments.length) {
-      this.hasMoreComments = false;
-    }
+    // Симулируем задержку загрузки данных, чтобы лоадер был виден
+    setTimeout(() => {
+      const next = this.allComments.slice(this.offset, this.offset + this.commentsPerPage);
+      this.comments = [...this.comments, ...next];
+      this.offset += next.length;
+
+      if (this.offset >= this.allComments.length) {
+        this.hasMoreComments = false;
+      }
+
+      // После завершения загрузки, скрываем лоадер
+      this.isLoadingComments = false;
+    }, 1000);  // Задержка 1 секунда (можно настроить по необходимости)
   }
+
+
 
   addComment(): void {
     if (!this.newCommentText.trim()) return;
