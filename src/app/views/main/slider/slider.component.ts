@@ -22,7 +22,8 @@ export class SliderComponent {
         { text: ' -15%', isHighlighted: true },
         { text: '!', isHighlighted: false }
       ],
-      text: ''
+      text: '',
+      serviceTitle: 'Продвижение' // ← совпадает с SERVICE.title
     },
     {
       image: '../../../../assets/images/pages/slides/slide2.png',
@@ -32,7 +33,8 @@ export class SliderComponent {
         { text: ' копирайтер', isHighlighted: true },
         { text: '?', isHighlighted: false }
       ],
-      text: 'Весь декабрь у нас действует акция на работу копирайтера.'
+      text: 'Весь декабрь у нас действует акция на работу копирайтера.',
+      serviceTitle: 'Копирайтинг'
     },
     {
       image: '../../../../assets/images/pages/slides/slide3.png',
@@ -42,9 +44,11 @@ export class SliderComponent {
         { text: 'в ТОП-10 SMM-агенств Москвы', isHighlighted: false },
         { text: '!', isHighlighted: false }
       ],
-      text: 'Мы благодарим каждого, кто голосовал за нас!'
+      text: 'Мы благодарим каждого, кто голосовал за нас!',
+      serviceTitle: 'Реклама'
     },
   ];
+
 
   prevSlide() {
     this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
@@ -59,13 +63,16 @@ export class SliderComponent {
   }
 
   openModal() {
+    const currentSlide = this.slides[this.currentSlide];
+
     this.modalService.openModal({
       showSelect: true,
-      // defaultService: service,
+      defaultService: currentSlide.serviceTitle,
       showConsultationBtn: false,
       formTitle: 'Оставить заявку'
     });
   }
+
 
   closeModal() {
     this.isModalOpen = false;

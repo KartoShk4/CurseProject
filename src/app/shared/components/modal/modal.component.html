@@ -13,7 +13,6 @@
       <form [formGroup]="formModal" (ngSubmit)="submitForm()" *ngIf="!showThanks">
         <div class="form-group" *ngIf="(modalConfig$ | async)?.showSelect">
           <select class="input" formControlName="service">
-            <option value="">Выберите услугу</option>
             <option *ngFor="let title of serviceTitles" [value]="title">
               {{ title }}
             </option>
