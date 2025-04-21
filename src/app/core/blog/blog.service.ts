@@ -5,6 +5,8 @@ import { Article } from '../../models/article.models';
 import { Category } from '../../models/category.models';
 import { ArticleResponse } from "../../../type/article-response";
 import {CommentType, DefaultResponseType} from "../../../type/comment.type";
+import {CommentReaction} from "../../models/comment.model";
+import {AuthService} from "../auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,8 @@ import {CommentType, DefaultResponseType} from "../../../type/comment.type";
 export class BlogService {
   private baseUrl = 'http://localhost:3000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private authService: AuthService,) {}
 
   // Получаем категории
   getCategories(): Observable<Category[]> {
@@ -61,13 +64,12 @@ export class BlogService {
             likes: comment.likesCount || 0,
             dislikes: comment.dislikesCount || 0,
             complaints: 0,
+          },
             userReaction: null
-          }
         }))
       )
     );
   }
-
 
   addComment(articleId: string, text: string): Observable<DefaultResponseType> {
     const token = localStorage.getItem('accessToken');
@@ -79,6 +81,39 @@ export class BlogService {
         'x-auth': token || ''
       }
     });
+  }
+
+  public getToken(): string | null {
+    return this.authService.getTokens().accessToken;
+  }
+
+
+
+  getUserReactions(articleId: string): Observable<CommentReaction[]> {
+    const token = this.authService.getTokens().accessToken;
+
+    return this.http.get<CommentReaction[]>(
+      `${this.baseUrl}/comments/article-comment-actions?articleId=${articleId}`,
+      {
+        headers: {
+          'x-auth': token || ''
+        }
+      }
+    );
+  }
+
+  addReaction(commentId: string, action: 'like' | 'dislike' | 'violate') {
+    const token = this.authService.getTokens().accessToken;
+
+    return this.http.post<{ message: string }>(
+      `${this.baseUrl}/comments/${commentId}/apply-action`,
+      { action },
+      {
+        headers: {
+          'x-auth': token || ''
+        }
+      }
+    );
   }
 
 }

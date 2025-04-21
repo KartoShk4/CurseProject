@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../../../../core/blog/blog.service';
 import { Article } from '../../../../models/article.models';
-import {AuthService} from "../../../../core/auth/auth.service";
-import {Observable} from "rxjs";
-import {CommentType} from "../../../../../type/comment.type";
-
+import { AuthService } from "../../../../core/auth/auth.service";
+import { Observable } from "rxjs";
+import { CommentType } from "../../../../../type/comment.type";
+import { CommentReaction } from "../../../../models/comment.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-article',
@@ -16,25 +17,24 @@ export class ArticleComponent implements OnInit {
   article!: Article;
   relatedArticles: Article[] = [];
   comments: CommentType[] = [];
+  allComments: CommentType[] = [];
+  userReactions: CommentReaction[] = [];
+
   isLogged$: Observable<boolean>;
   newCommentText: string = '';
   articleId!: string;
   articleUrl!: string;
   offset: number = 0;
-  isLoadingComments: boolean = false; // загрузка
-  hasMoreComments: boolean = true; // есть ли ещё
-  commentsPerPage: number = 10; // шаг загрузки (после первых 3)
-  initialLoadCount: number = 3; // первые 3 комментария
-  initialLoad: boolean = true;
-  allComments: CommentType[] = [];
-
-
-
+  isLoadingComments: boolean = false;
+  hasMoreComments: boolean = true;
+  commentsPerPage: number = 10;
+  initialLoadCount: number = 3;
 
   constructor(
     private route: ActivatedRoute,
     private blogService: BlogService,
     private authService: AuthService,
+    private _snackBar: MatSnackBar,
   ) {
     this.isLogged$ = this.authService.isLogged$;
   }
@@ -46,7 +46,7 @@ export class ArticleComponent implements OnInit {
         this.article = article;
         this.articleId = article.id;
 
-        // загружаем ВСЕ комментарии
+        // Загружаем все комментарии
         this.blogService.getComments(this.articleId, 0).subscribe(comments => {
           this.allComments = comments;
 
@@ -57,11 +57,14 @@ export class ArticleComponent implements OnInit {
             this.hasMoreComments = false;
           }
         });
+
+        // Загружаем связанные статьи
+        this.blogService.getRelatedArticles(this.article.url).subscribe((related) => {
+          this.relatedArticles = related;
+        });
       });
     }
   }
-
-
 
   loadComments(): void {
     const next = this.allComments.slice(this.offset, this.offset + this.commentsPerPage);
@@ -72,10 +75,6 @@ export class ArticleComponent implements OnInit {
       this.hasMoreComments = false;
     }
   }
-
-
-
-
 
   addComment(): void {
     if (!this.newCommentText.trim()) return;
@@ -89,9 +88,77 @@ export class ArticleComponent implements OnInit {
       if (!response.error) {
         this.newCommentText = '';
         this.offset = 0;
-        this.comments = []; // сброс
-        this.loadComments(); // перезагрузка с новым комментом
+        this.comments = [];
+
+        // Загружаем все комментарии заново
+        this.blogService.getComments(this.articleId, 0).subscribe(comments => {
+          this.allComments = comments;
+          this.comments = this.allComments.slice(0, this.initialLoadCount);
+          this.offset = this.initialLoadCount;
+
+          if (this.offset >= this.allComments.length) {
+            this.hasMoreComments = false;
+          }
+        });
       }
     });
   }
+
+  onReact(commentId: string, action: 'like' | 'dislike' | 'violate') {
+    // Проверка на авторизацию
+    const token = this.authService.getTokens().accessToken;
+    if (!token) {
+      this._snackBar.open('Вы должны быть авторизованы', '', { duration: 3000 });
+      return;
+    }
+
+    this.blogService.addReaction(commentId, action).subscribe({
+      next: () => {
+        const message = action === 'violate' ? 'Жалоба отправлена' : 'Ваш голос учтен';
+        this._snackBar.open(message, '', { duration: 3000 });
+
+        this.comments = this.comments.map(comment => {
+          if (comment.id !== commentId) return comment;
+
+          const current = comment.userReaction;
+          let updatedReaction: 'like' | 'dislike' | 'violate' | null = current === action ? null : action;
+
+          let likes = comment.reactions.likes;
+          let dislikes = comment.reactions.dislikes;
+
+          if (action === 'like') {
+            likes += current === 'like' ? -1 : 1;
+            if (current === 'dislike') dislikes--;
+          }
+
+          if (action === 'dislike') {
+            dislikes += current === 'dislike' ? -1 : 1;
+            if (current === 'like') likes--;
+          }
+
+          // жалоба не влияет на визуальное состояние, кроме сообщения
+          return {
+            ...comment,
+            reactions: {
+              ...comment.reactions,
+              likes,
+              dislikes,
+              complaints: comment.reactions.complaints // можно обновить, если бэк это возвращает
+            },
+            userReaction: updatedReaction
+          };
+        });
+      },
+      error: (err) => {
+        const msgFromBackend = err.error?.message;
+
+        const message = msgFromBackend === 'Это действие уже применено к комментарию'
+          ? 'Жалоба уже отправлена'
+          : 'Произошла ошибка';
+
+        this._snackBar.open(message, '', { duration: 3000 });
+      }
+    });
+  }
+
 }

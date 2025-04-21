@@ -7,9 +7,10 @@ export interface CommentType {
     likes: number;
     dislikes: number;
     complaints: number;
-    userReaction: 'like' | 'dislike' | 'complain' | null;
   };
+  userReaction: 'like' | 'dislike' | 'violate' | null; // переместили сюда!
 }
+
 
 export interface DefaultResponseType {
   error?: boolean;
