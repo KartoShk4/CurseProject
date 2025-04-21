@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService, Category, Request } from '../../../core/services/api.service';
 import { ModalService } from '../../../core/modal/modal.service';
@@ -18,14 +18,15 @@ export class ModalComponent implements OnInit, OnDestroy {
   showThanks: boolean = false;
   isOpen$: Observable<boolean>;
   modalConfig$: Observable<any>;
-  modalConfig: any; // Добавляем эту строку для объявления переменной
+  modalConfig: any;
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    public modalService: ModalService
+    public modalService: ModalService,
+    private cdr: ChangeDetectorRef
   ) {
     this.formModal = this.fb.group({
       service: [''],
@@ -51,6 +52,9 @@ export class ModalComponent implements OnInit, OnDestroy {
           this.formModal.get('service')?.setValidators([Validators.required]);
           this.formModal.get('service')?.updateValueAndValidity();
         }
+
+        // Форсируем обновление шаблона
+        this.cdr.detectChanges();
       });
   }
 
@@ -62,6 +66,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   closeModal(): void {
     this.modalService.closeModal();
+    this.modalService.resetToDefault();
     this.showThanks = false;
     this.formModal.reset();
     this.formModal.patchValue({ service: '' });
