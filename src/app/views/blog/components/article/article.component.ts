@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../../../../core/blog/blog.service';
 import { Article } from '../../../../models/article.models';
 import { AuthService } from "../../../../core/auth/auth.service";
-import {count, Observable} from "rxjs";
+import { Observable} from "rxjs";
 import { CommentType } from "../../../../../type/comment.type";
 import { CommentReaction } from "../../../../models/comment.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -17,13 +17,11 @@ export class ArticleComponent implements OnInit {
   article!: Article;
   relatedArticles: Article[] = [];
   comments: CommentType[] = [];
-  allComments: CommentType[] = [];
   userReactions: CommentReaction[] = [];
 
   isLogged$: Observable<boolean>;
   newCommentText: string = '';
   articleId!: string;
-  articleUrl!: string;
   offset: number = 0;
   isLoadingComments: boolean = false;
   hasMoreComments: boolean = true;
@@ -42,14 +40,24 @@ export class ArticleComponent implements OnInit {
   ngOnInit(): void {
     const url = this.route.snapshot.paramMap.get('url');
     if (url) {
+      // Загрузка самой статьи
       this.blogService.getArticleByUrl(url).subscribe(article => {
         this.article = article;
         this.articleId = article.id;
 
+        // Загрузка связанных статей
+        this.loadRelatedArticles(url);  // Передаем articleUrl, чтобы получить связанные статьи
         this.loadComments(this.initialLoadCount);
       });
     }
   }
+
+  loadRelatedArticles(articleUrl: string): void {
+    this.blogService.getRelatedArticles(articleUrl).subscribe(articles => {
+      this.relatedArticles = articles;
+    });
+  }
+
 
 
   loadComments(count: number = this.commentsPerPage): void {

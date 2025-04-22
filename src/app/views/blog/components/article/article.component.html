@@ -106,10 +106,17 @@
       </div>
       <!-- Авторизованный пользователь -->
       <div class="article-comments-title-login" *ngIf="isLogged$ | async">
-        <textarea [(ngModel)]="newCommentText" class="input" cols="30" rows="11"
-                  placeholder="Напишите Ваш комментарий к статье..."></textarea>
-        <button class="button button-big" (click)="addComment()">Опубликовать комментарий</button>
+  <textarea [(ngModel)]="newCommentText" class="input" cols="30" rows="11"
+            placeholder="Напишите Ваш комментарий к статье..."></textarea>
+        <button
+          class="button button-big"
+          (click)="addComment()"
+          [ngClass]="{ 'button-disabled': !newCommentText.trim() }"
+          [disabled]="!newCommentText.trim()">
+          Опубликовать комментарий
+        </button>
       </div>
+
       <div class="article-comments-items">
         <div class="article-comments-item" *ngFor="let comment of comments">
           <div class="article-comments-item-head">
