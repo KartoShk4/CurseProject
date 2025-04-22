@@ -4,7 +4,7 @@ import { Article } from 'src/app/models/article.models';
 import { Category } from 'src/app/models/category.models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleResponse } from 'src/app/models/article-response.models';
-import {Element} from "@angular/compiler"; // Импорт правильного интерфейса
+import {BlogType} from "../../../../type/blog.type";
 
 @Component({
   selector: 'app-blog',
@@ -18,7 +18,7 @@ export class BlogComponent implements OnInit {
   isFilterOpen: boolean = false;
   pages: number[] = [];
 
-  activeParams = {
+  activeParams: BlogType = {
     page: 1,
     categories: [] as string[]
   };
@@ -44,10 +44,10 @@ export class BlogComponent implements OnInit {
 
   loadArticles(): void {
     this.blogService.getArticles(this.activeParams.page, this.activeParams.categories)
-      .subscribe((response: ArticleResponse) => { // Используем правильный интерфейс
+      .subscribe((response: ArticleResponse): void => {
         this.articles = response.items;
-        this.totalPages = response.pages;  // Используем 'pages' вместо 'totalPages'
-        this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+        this.totalPages = response.pages;
+        this.pages = Array.from({ length: this.totalPages }, (_, i: number): number => i + 1);
       });
   }
 
@@ -58,7 +58,7 @@ export class BlogComponent implements OnInit {
   }
 
   toggleCategory(categoryUrl: string): void {
-    const index = this.selectedCategories.indexOf(categoryUrl);
+    const index: number = this.selectedCategories.indexOf(categoryUrl);
     if (index > -1) {
       this.selectedCategories.splice(index, 1);
     } else {
@@ -82,7 +82,7 @@ export class BlogComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
+  onDocumentClick(event: MouseEvent): void {
     const element = event.target as HTMLElement | null;
 
     if (!element?.closest('.blog-filter-sorting')) {
@@ -90,9 +90,8 @@ export class BlogComponent implements OnInit {
     }
   }
 
-
   getCategoryName(url: string): string {
-    const category = this.categories.find(c => c.url === url);
+    const category: Category | undefined = this.categories.find(c => c.url === url);
     return category ? category.name : url;
   }
 

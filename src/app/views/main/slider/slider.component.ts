@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ModalService} from "../../../core/modal/modal.service";
+import {SliderType} from "../../../../type/slider.type";
 
 @Component({
   selector: 'app-slider',
@@ -7,13 +8,13 @@ import {ModalService} from "../../../core/modal/modal.service";
   styleUrls: ['./slider.component.scss']
 })
 export class SliderComponent {
-  currentSlide = 0;
-  isModalOpen = false;
+  currentSlide: number = 0;
+  isModalOpen: boolean = false;
 
   constructor(private modalService: ModalService) {
   }
 
-  slides = [
+  slides: SliderType[] = [
     {
       image: '../../../../assets/images/pages/slides/slide1.png',
       pretitle: 'Предложение месяца',
@@ -23,7 +24,7 @@ export class SliderComponent {
         { text: '!', isHighlighted: false }
       ],
       text: '',
-      serviceTitle: 'Продвижение' // ← совпадает с SERVICE.title
+      serviceTitle: 'Продвижение'
     },
     {
       image: '../../../../assets/images/pages/slides/slide2.png',
@@ -50,20 +51,20 @@ export class SliderComponent {
   ];
 
 
-  prevSlide() {
+  prevSlide(): void {
     this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
   }
 
-  nextSlide() {
+  nextSlide(): void {
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
   }
 
-  goToSlide(index: number) {
+  goToSlide(index: number): void {
     this.currentSlide = index;
   }
 
-  openModal() {
-    const currentSlide = this.slides[this.currentSlide];
+  openModal(): void {
+    const currentSlide: SliderType = this.slides[this.currentSlide];
 
     this.modalService.openModal({
       showSelect: true,
@@ -74,7 +75,7 @@ export class SliderComponent {
   }
 
 
-  closeModal() {
+  closeModal(): void {
     this.isModalOpen = false;
   }
 }

@@ -7,6 +7,8 @@ import { Observable} from "rxjs";
 import { CommentType } from "../../../../../type/comment.type";
 import { CommentReaction } from "../../../../models/comment.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import {ReactionType} from "../../../../../type/reaction.type";
+
 
 @Component({
   selector: 'app-article',
@@ -21,12 +23,13 @@ export class ArticleComponent implements OnInit {
 
   isLogged$: Observable<boolean>;
   newCommentText: string = '';
-  articleId!: string;
+  articleId: string;
   offset: number = 0;
   isLoadingComments: boolean = false;
   hasMoreComments: boolean = true;
   commentsPerPage: number = 10;
   initialLoadCount: number = 3;
+  ReactionType: typeof ReactionType = ReactionType;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,10 +38,11 @@ export class ArticleComponent implements OnInit {
     private _snackBar: MatSnackBar,
   ) {
     this.isLogged$ = this.authService.isLogged$;
+    this.articleId = '';
   }
 
   ngOnInit(): void {
-    const url = this.route.snapshot.paramMap.get('url');
+    const url: string | null = this.route.snapshot.paramMap.get('url');
     if (url) {
       // Загрузка самой статьи
       this.blogService.getArticleByUrl(url).subscribe(article => {
@@ -58,13 +62,11 @@ export class ArticleComponent implements OnInit {
     });
   }
 
-
-
   loadComments(count: number = this.commentsPerPage): void {
     this.isLoadingComments = true;
 
     this.blogService.getComments(this.articleId, this.offset, count).subscribe(comments => {
-      const sliced = comments.slice(0, count); // <— костыль
+      const sliced: CommentType[] = comments.slice(0, count);
       this.comments = [...this.comments, ...sliced];
       this.offset += sliced.length;
       this.hasMoreComments = sliced.length === count;
@@ -72,8 +74,7 @@ export class ArticleComponent implements OnInit {
     });
   }
 
-
-  onLoadMore() {
+  onLoadMore(): void {
     this.loadComments(this.commentsPerPage); // Загружаем по 10
   }
 
@@ -93,15 +94,15 @@ export class ArticleComponent implements OnInit {
     });
   }
 
-  onReact(commentId: string, action: 'like' | 'dislike' | 'violate') {
-    const token = this.authService.getTokens().accessToken;
+  onReact(commentId: string, action: ReactionType): void {
+    const token: string | null = this.authService.getTokens().accessToken;
     if (!token) {
       this._snackBar.open('Вы должны быть авторизованы', '', { duration: 3000 });
       return;
     }
 
     this.blogService.addReaction(commentId, action).subscribe({
-      next: () => {
+      next: (): void => {
         const message = action === 'violate' ? 'Жалоба отправлена' : 'Ваш голос учтен';
         this._snackBar.open(message, '', { duration: 3000 });
 
@@ -110,10 +111,10 @@ export class ArticleComponent implements OnInit {
           if (comment.id !== commentId) return comment;
 
           const current = comment.userReaction;
-          let updatedReaction: 'like' | 'dislike' | 'violate' | null = current === action ? null : action;
+          let updatedReaction: ReactionType | null = current === action ? null : action;
 
-          let likes = comment.reactions.likes;
-          let dislikes = comment.reactions.dislikes;
+          let likes: number = comment.reactions.likes;
+          let dislikes: number = comment.reactions.dislikes;
 
           if (action === 'like') {
             likes += current === 'like' ? -1 : 1;
@@ -141,7 +142,7 @@ export class ArticleComponent implements OnInit {
           this.userReactions = reactions;
         });
       },
-      error: (err) => {
+      error: (err): void => {
         const msgFromBackend = err.error?.message;
         const message = msgFromBackend === 'Это действие уже применено к комментарию'
           ? 'Жалоба уже отправлена'

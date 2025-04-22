@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ReviewsType} from "../../../../type/reviews.type";
 
 @Component({
   selector: 'app-reviews',
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./reviews.component.scss']
 })
 export class ReviewsComponent {
-  reviews = [
+  reviews: ReviewsType[] = [
     {
       name: 'Станислав',
       image: '../../../../assets/images/pages/reviews1.png',
@@ -29,19 +30,19 @@ export class ReviewsComponent {
     },
   ];
 
-  currentIndex = 0;
+  currentIndex: number = 0;
 
   get visibleReviews() {
     return this.reviews.slice(this.currentIndex, this.currentIndex + 3);
   }
 
-  prev() {
+  prev(): void {
     if (this.currentIndex > 0) {
       this.currentIndex -= 1;
     }
   }
 
-  next() {
+  next(): void {
     if (this.currentIndex + 3 < this.reviews.length) {
       this.currentIndex += 1;
     }

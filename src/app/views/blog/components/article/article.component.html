@@ -142,7 +142,7 @@
           <div class="article-comments-item-text">{{ comment.text }}</div>
           <div class="article-comments-item-reactions">
             <!--LIKE-->
-            <div class="article-comments-item-reaction" (click)="onReact(comment.id, 'like')">
+            <div class="article-comments-item-reaction" (click)="onReact(comment.id, ReactionType.Like)">
               <div class="article-comments-item-reaction-count">{{ comment.reactions.likes }}</div>
               <div class="article-comments-item-reaction-icon" [class.active]="comment.userReaction === 'like'">
 
@@ -158,7 +158,7 @@
               </div>
             </div>
             <!--DISLIKE-->
-            <div class="article-comments-item-reaction" (click)="onReact(comment.id, 'dislike')">
+            <div class="article-comments-item-reaction" (click)="onReact(comment.id, ReactionType.Dislike)">
               <div class="article-comments-item-reaction-count">{{ comment.reactions.dislikes }}</div>
               <div class="article-comments-item-reaction-icon" [class.active]="comment.userReaction === 'dislike'">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -173,7 +173,7 @@
               </div>
             </div>
             <!--COMPLAIN-->
-            <div class="article-comments-item-reaction" (click)="onReact(comment.id, 'violate')">
+            <div class="article-comments-item-reaction" (click)="onReact(comment.id, ReactionType.Dislike)">
               <div class="article-comments-item-reaction-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
