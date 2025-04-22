@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { BlogService } from 'src/app/core/blog/blog.service';
 import { Article } from 'src/app/models/article.models';
 import { Category } from 'src/app/models/category.models';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticleResponse } from 'src/app/models/article-response.models'; // Импорт правильного интерфейса
+import { ArticleResponse } from 'src/app/models/article-response.models';
+import {Element} from "@angular/compiler"; // Импорт правильного интерфейса
 
 @Component({
   selector: 'app-blog',
@@ -79,6 +80,16 @@ export class BlogComponent implements OnInit {
   toggleFilterOpen(): void {
     this.isFilterOpen = !this.isFilterOpen;
   }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const element = event.target as HTMLElement | null;
+
+    if (!element?.closest('.blog-filter-sorting')) {
+      this.isFilterOpen = false;
+    }
+  }
+
 
   getCategoryName(url: string): string {
     const category = this.categories.find(c => c.url === url);

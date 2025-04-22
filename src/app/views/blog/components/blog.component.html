@@ -7,7 +7,7 @@
         <!-- Левая часть: выбранные категории -->
         <div class="blog-applied-filters" *ngIf="selectedCategories.length > 0">
           <div class="blog-applied-filter" *ngFor="let url of selectedCategories">
-            <span>{{ getCategoryName(url) }}</span>  <!-- Выводим имя категории по URL -->
+            <span>{{ getCategoryName(url) }}</span>
             <a (click)="toggleCategory(url)">
               <!-- Иконка крестика -->
               <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
