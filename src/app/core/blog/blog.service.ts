@@ -49,12 +49,13 @@ export class BlogService {
     return this.http.get<Article[]>(`${this.baseUrl}/articles/related/${articleUrl}`);
   }
 
-  // Получаем комментарии для статьи
-  getComments(articleId: string, offset: number = 0): Observable<CommentType[]> {
+// Получаем комментарии для статьи
+  getComments(articleId: string, offset: number = 0, limit: number = 10): Observable<CommentType[]> {
     return this.http.get<{ comments: any[] }>(`${this.baseUrl}/comments`, {
       params: {
         article: articleId,
-        offset: offset.toString()
+        offset: offset.toString(),
+        limit: limit.toString()  // Убираем жесткую привязку, теперь количество можно контролировать
       }
     }).pipe(
       map(response =>

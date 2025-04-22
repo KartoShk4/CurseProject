@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../../../../core/blog/blog.service';
 import { Article } from '../../../../models/article.models';
 import { AuthService } from "../../../../core/auth/auth.service";
-import { Observable } from "rxjs";
+import {count, Observable} from "rxjs";
 import { CommentType } from "../../../../../type/comment.type";
 import { CommentReaction } from "../../../../models/comment.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -42,71 +42,37 @@ export class ArticleComponent implements OnInit {
   ngOnInit(): void {
     const url = this.route.snapshot.paramMap.get('url');
     if (url) {
-      this.blogService.getArticleByUrl(url).subscribe((article) => {
+      this.blogService.getArticleByUrl(url).subscribe(article => {
         this.article = article;
         this.articleId = article.id;
 
-        // Загружаем все комментарии
-        this.blogService.getComments(this.articleId, 0).subscribe(comments => {
-          this.allComments = comments;
-          this.comments = this.allComments.slice(0, this.initialLoadCount);
-          this.offset = this.initialLoadCount;
-
-          if (this.offset >= this.allComments.length) {
-            this.hasMoreComments = false;
-          }
-
-          // Загружаем реакции пользователя для комментариев
-          this.blogService.getUserReactions(this.articleId).subscribe(reactions => {
-            this.userReactions = reactions;
-
-            // Обновляем комментарии с учетом реакций пользователя
-            this.comments = this.comments.map(comment => {
-              const userReaction = this.userReactions.find(r => r.comment === comment.id);
-              if (userReaction) {
-                comment.userReaction = userReaction.action;
-              }
-              return comment;
-            });
-          });
-        });
-
-        // Загружаем связанные статьи
-        this.blogService.getRelatedArticles(this.article.url).subscribe((related) => {
-          this.relatedArticles = related;
-        });
+        this.loadComments(this.initialLoadCount);
       });
     }
   }
 
 
-  loadComments(): void {
-    this.isLoadingComments = true;  // Включаем лоадер
+  loadComments(count: number = this.commentsPerPage): void {
+    this.isLoadingComments = true;
 
-    // Симулируем задержку загрузки данных, чтобы лоадер был виден
-    setTimeout(() => {
-      const next = this.allComments.slice(this.offset, this.offset + this.commentsPerPage);
-      this.comments = [...this.comments, ...next];
-      this.offset += next.length;
-
-      if (this.offset >= this.allComments.length) {
-        this.hasMoreComments = false;
-      }
-
-      // После завершения загрузки, скрываем лоадер
+    this.blogService.getComments(this.articleId, this.offset, count).subscribe(comments => {
+      const sliced = comments.slice(0, count); // <— костыль
+      this.comments = [...this.comments, ...sliced];
+      this.offset += sliced.length;
+      this.hasMoreComments = sliced.length === count;
       this.isLoadingComments = false;
-    }, 1000);  // Задержка 1 секунда (можно настроить по необходимости)
+    });
   }
 
 
+  onLoadMore() {
+    this.loadComments(this.commentsPerPage); // Загружаем по 10
+  }
 
   addComment(): void {
     if (!this.newCommentText.trim()) return;
 
-    if (!this.articleId) {
-      console.warn('Article ID is not set yet');
-      return;
-    }
+    if (!this.articleId) return;
 
     this.blogService.addComment(this.articleId, this.newCommentText).subscribe(response => {
       if (!response.error) {
@@ -114,16 +80,7 @@ export class ArticleComponent implements OnInit {
         this.offset = 0;
         this.comments = [];
 
-        // Загружаем все комментарии заново
-        this.blogService.getComments(this.articleId, 0).subscribe(comments => {
-          this.allComments = comments;
-          this.comments = this.allComments.slice(0, this.initialLoadCount);
-          this.offset = this.initialLoadCount;
-
-          if (this.offset >= this.allComments.length) {
-            this.hasMoreComments = false;
-          }
-        });
+        this.loadComments(this.initialLoadCount); // Загружаем первые 3 комментария снова
       }
     });
   }
@@ -172,7 +129,6 @@ export class ArticleComponent implements OnInit {
           };
         });
 
-        // Синхронизируем состояние реакции с сервером (это необязательно, если сервер уже обновляет данные)
         this.blogService.getUserReactions(this.articleId).subscribe(reactions => {
           this.userReactions = reactions;
         });
